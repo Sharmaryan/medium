@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
+import { createUserInput, updateUserInput } from "@sharmaryan/common-medium";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
-import { z } from "zod";
 
 type Variables = {
     id: string;
@@ -17,17 +17,6 @@ export const blogRouter = new Hono<{
     Bindings: Bindings;
     Variables: Variables;
 }>();
-
-const CreateUser = z.object({
-    title: z.string(),
-    content: z.string(),
-});
-
-const UpdateUser = z.object({
-    title: z.string(),
-    content: z.string(),
-    id: z.string(),
-});
 
 blogRouter.use("/*", async (c, next) => {
     const header = c.req.header("authorization") ?? "";
@@ -88,7 +77,7 @@ blogRouter.post("/", async (c) => {
     }).$extends(withAccelerate());
     const userId = c.get("id");
     const body = await c.req.json();
-    const { success } = CreateUser.safeParse(body);
+    const { success } = createUserInput.safeParse(body);
     if (success) {
         try {
             const blog = await prisma.post.create({
@@ -114,7 +103,7 @@ blogRouter.put("/", async (c) => {
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
     const body = await c.req.json();
-    const { success } = UpdateUser.safeParse(body);
+    const { success } = updateUserInput.safeParse(body);
     if (success) {
         const userId = c.get("id");
         try {
