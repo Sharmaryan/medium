@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
+import { z } from "zod";
 
 type Variables = {
     id: string;
@@ -16,6 +17,17 @@ export const blogRouter = new Hono<{
     Bindings: Bindings;
     Variables: Variables;
 }>();
+
+const CreateUser = z.object({
+    title: z.string(),
+    content: z.string(),
+});
+
+const UpdateUser = z.object({
+    title: z.string(),
+    content: z.string(),
+    id: z.string(),
+});
 
 blogRouter.use("/*", async (c, next) => {
     const header = c.req.header("authorization") ?? "";
@@ -76,18 +88,24 @@ blogRouter.post("/", async (c) => {
     }).$extends(withAccelerate());
     const userId = c.get("id");
     const body = await c.req.json();
-    try {
-        const blog = await prisma.post.create({
-            data: {
-                title: body.title,
-                content: body.content,
-                authorId: userId,
-            },
-        });
-        return c.json({ blog });
-    } catch (err) {
-        c.status(411);
-        return c.json({ message: "Unable to post, please try again" });
+    const { success } = CreateUser.safeParse(body);
+    if (success) {
+        try {
+            const blog = await prisma.post.create({
+                data: {
+                    title: body.title,
+                    content: body.content,
+                    authorId: userId,
+                },
+            });
+            return c.json({ blog });
+        } catch (err) {
+            c.status(411);
+            return c.json({ message: "Unable to post, please try again" });
+        }
+    } else {
+        c.status(422);
+        return c.json({ message: "Invalid Inputs" });
     }
 });
 
@@ -96,21 +114,27 @@ blogRouter.put("/", async (c) => {
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
     const body = await c.req.json();
-    const userId = c.get("id");
-    try {
-        await prisma.post.update({
-            where: {
-                id: body.id,
-                authorId: userId,
-            },
-            data: {
-                title: body.title,
-                content: body.content,
-            },
-        });
-        return c.json({ message: "Updated" });
-    } catch (err) {
-        c.status(411);
-        return c.json({ message: "Unable to post, please try again" });
+    const { success } = UpdateUser.safeParse(body);
+    if (success) {
+        const userId = c.get("id");
+        try {
+            await prisma.post.update({
+                where: {
+                    id: body.id,
+                    authorId: userId,
+                },
+                data: {
+                    title: body.title,
+                    content: body.content,
+                },
+            });
+            return c.json({ message: "Updated" });
+        } catch (err) {
+            c.status(411);
+            return c.json({ message: "Unable to post, please try again" });
+        }
+    } else {
+        c.status(422);
+        return c.json({ message: "Invalid Inputs" });
     }
 });
