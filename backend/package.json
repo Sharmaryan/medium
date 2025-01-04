@@ -5,11 +5,11 @@
     "deploy": "wrangler deploy --minify"
   },
   "dependencies": {
-    "@prisma/client": "^5.21.1",
+    "@prisma/client": "^5.22.0",
     "@prisma/extension-accelerate": "^1.2.1",
     "@sharmaryan/common-medium": "^1.0.1",
     "hono": "^4.6.7",
-    "prisma": "^5.21.1",
+    "prisma": "^5.22.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
