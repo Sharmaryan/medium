@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { AuthProps } from "./AuthForm.types";
 import { usePathname, useRouter } from "next/navigation";
 import axios from "axios";
-import { loggingInUser } from "../../lib/constants";
+import { USER_ROUTE, loggingInUser } from "../../lib/constants/auth/auth";
 
 export const AuthForm = ({ path, linkText }: AuthProps) => {
   const [email, setEmail] = useState("");
@@ -20,10 +20,11 @@ export const AuthForm = ({ path, linkText }: AuthProps) => {
         const payload = { redirect: false, email, password };
         if (currentPage !== "/signup") {
           loggingInUser(payload);
+          router.push("/");
         } else {
           try {
             const response = await axios.post(
-              `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user/signup`,
+              `${USER_ROUTE}/signup`,
               payload
             );
             if (response.status === 200) {
