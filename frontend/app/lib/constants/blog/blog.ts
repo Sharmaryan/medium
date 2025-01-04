@@ -1,0 +1,1 @@
+export const BLOG_ROUTE = `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/blog`

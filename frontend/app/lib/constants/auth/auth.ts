@@ -1,5 +1,5 @@
 import { signIn } from "next-auth/react";
-import { SignInPayload } from "./constants.types";
+import { SignInPayload } from "./auth.types";
 
 export const loggingInUser = async (payload: SignInPayload) => {
     try {
@@ -8,3 +8,5 @@ export const loggingInUser = async (payload: SignInPayload) => {
         console.log(err);
     }
 };
+
+export const USER_ROUTE = `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/user`
