@@ -54,7 +54,7 @@ userRouter.post("/signin", async (c) => {
     }
 
     const token = await sign({ id: user.id }, c.env.JWT_SECRET);
-    return c.json({ jwt: token });
+    return c.json({ jwt: token, id: user.id, email: user.email });
   } else {
     c.status(422);
     return c.json({ message: "Invalid Inputs" });
