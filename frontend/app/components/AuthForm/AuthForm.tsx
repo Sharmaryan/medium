@@ -6,12 +6,21 @@ import { usePathname, useRouter } from "next/navigation";
 import axios from "axios";
 import { USER_ROUTE, loggingInUser } from "../../lib/constants/auth/auth";
 import { Button } from "../Button/Button";
+import Input from "../Input/Input";
 
 export const AuthForm = ({ path, linkText }: AuthProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const currentPage = usePathname();
   const router = useRouter();
+
+  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
 
   return (
     <form
@@ -35,18 +44,8 @@ export const AuthForm = ({ path, linkText }: AuthProps) => {
         }
       }}
     >
-      <input
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
-        placeholder="email"
-      />
-      <input
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-        placeholder="password"
-      />
+      <Input onChange={handleEmail} label={"email"} name={"email"} />
+      <Input onChange={handlePassword} label={"password"} name={"password"} />
       <Button fill="solid" type="submit" className="w-full">
         Submit
       </Button>
