@@ -5,6 +5,7 @@ import { Session } from "next-auth";
 import { BLOG_ROUTE } from "../../lib/constants/blog/blog";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "../Button/Button";
 
 export const BlogForm = ({ session }: { session: Session | null }) => {
   const [title, setTitle] = useState("");
@@ -43,12 +44,9 @@ export const BlogForm = ({ session }: { session: Session | null }) => {
           setContent(e.target.value);
         }}
       />
-      <button
-        className="bg-secondary text-primary w-fit px-4 py-1 rounded-xl"
-        type="submit"
-      >
+      <Button fill="solid" type="submit" className="px-6">
         Publish
-      </button>
+      </Button>
     </form>
   );
 };

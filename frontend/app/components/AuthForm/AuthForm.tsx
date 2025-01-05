@@ -5,6 +5,7 @@ import { AuthProps } from "./AuthForm.types";
 import { usePathname, useRouter } from "next/navigation";
 import axios from "axios";
 import { USER_ROUTE, loggingInUser } from "../../lib/constants/auth/auth";
+import { Button } from "../Button/Button";
 
 export const AuthForm = ({ path, linkText }: AuthProps) => {
   const [email, setEmail] = useState("");
@@ -23,10 +24,7 @@ export const AuthForm = ({ path, linkText }: AuthProps) => {
           router.push("/");
         } else {
           try {
-            const response = await axios.post(
-              `${USER_ROUTE}/signup`,
-              payload
-            );
+            const response = await axios.post(`${USER_ROUTE}/signup`, payload);
             if (response.status === 200) {
               loggingInUser(payload);
               router.push("/");
@@ -49,13 +47,12 @@ export const AuthForm = ({ path, linkText }: AuthProps) => {
         }}
         placeholder="password"
       />
-      <button
-        className="text-primary bg-secondary rounded-md py-2"
-        type="submit"
-      >
+      <Button fill="solid" type="submit" className="w-full">
         Submit
-      </button>
-      <Link href={path}>{linkText}</Link>
+      </Button>
+      <Button fill="clear">
+        <Link href={path}>{linkText}</Link>
+      </Button>
     </form>
   );
 };
