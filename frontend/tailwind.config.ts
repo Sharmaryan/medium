@@ -14,6 +14,8 @@ export default {
         primary: "var(--primary-color)",
         secondary: "var(--secondary-color)",
         error: "var(--error-color)",
+        success: "var(--success-color)",
+        info: "var(--info-color)",
       },
     },
   },
