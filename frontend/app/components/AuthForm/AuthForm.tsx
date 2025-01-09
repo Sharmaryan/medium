@@ -10,7 +10,7 @@ import Input from "../Input/Input";
 import { useForm } from "react-hook-form";
 import { SignupInput } from "@sharmaryan/common-medium";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SignInSchema } from "../../lib/form-schema/Signin.schema";
+import { SignInSchema } from "../../lib/form-schema/SignIn.schema";
 
 export const AuthForm = ({ path, linkText }: AuthProps) => {
   const currentPage = usePathname();
@@ -31,13 +31,15 @@ export const AuthForm = ({ path, linkText }: AuthProps) => {
       password: data.password,
     };
     if (currentPage !== "/signup") {
-      loggingInUser(payload);
+      const response = await loggingInUser(payload);
+      if(response)
       router.push("/");
     } else {
       try {
         const response = await axios.post(`${USER_ROUTE}/signup`, payload);
         if (response.status === 200) {
-          loggingInUser(payload);
+          const response = await loggingInUser(payload);
+          if(response)
           router.push("/");
         }
       } catch (error) {

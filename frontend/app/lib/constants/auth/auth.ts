@@ -4,8 +4,9 @@ import { SignInPayload } from "./auth.types";
 export const loggingInUser = async (payload: SignInPayload) => {
     try {
         await signIn("credentials", payload);
+        return true
     } catch (err) {
-        console.log(err);
+        return false
     }
 };
 
