@@ -21,6 +21,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             placeholder={placeholder}
             {...rest}
             onChange={onChange}
+            autoComplete="true"
           />
           {label && (
             <label
