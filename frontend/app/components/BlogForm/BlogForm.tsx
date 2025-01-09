@@ -1,29 +1,32 @@
 "use client";
 
-import axios from "axios";
-import { Session } from "next-auth";
 import { BLOG_ROUTE } from "../../lib/constants/blog/blog";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "../Button/Button";
 import Input from "../Input/Input";
+import { useSession } from "next-auth/react";
+import { postReq } from "../../lib/axios-helpers/apiClient";
+import { isAxiosError } from "axios";
 
-export const BlogForm = ({ session }: { session: Session | null }) => {
+export const BlogForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const session = useSession();
   const router = useRouter();
   const publishHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const payload = { title, content };
-      await axios.post(BLOG_ROUTE, payload, {
-        headers: {
-          Authorization: `Bearer ${session?.user.token}`,
-        },
-      });
+      await postReq(BLOG_ROUTE, payload, session.data?.user.token);
       router.push("/");
     } catch (err) {
-      console.log(err);
+      if (isAxiosError(err)) {
+        console.log(err?.response?.data.error);
+      }
+      else{
+        console.log('Something Went Wrong!')
+      }
     }
   };
   return (
