@@ -8,7 +8,7 @@ export default async function Blog({
 }>) {
     const id = (await params).slug;
     const response = await getReq<{blog:BlogCardProps}>(`${BLOG_ROUTE}/${id}`);
-    const blog = response.blog
+    const blog = response.data.blog
   return (
     <div className="flex flex-col gap-10 pt-10 w-80 mx-auto md:w-[700px]">
       <h2 className="font-bold text-4xl">{blog.title}</h2>

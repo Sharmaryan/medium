@@ -8,7 +8,7 @@ export default async function Home() {
     `${BLOG_ROUTE}/bulk`
   );
 
-  const blogs: BlogCardProps[] = response?.blogs;
+  const blogs: BlogCardProps[] = response?.data.blogs;
   return (
     <div className="p-4">
       <Blogs blogs={blogs} />
