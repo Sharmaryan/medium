@@ -9,22 +9,16 @@ const createAxiosInstance = async (clientToken?: string) => {
 
   if (isServer) {
     const session = await getServerSession(NEXT_AUTH);
-    if (!session?.user?.token) {
-      throw new Error("Unable to retrieve access token. Please log in.");
-    }
-    token = session.user.token;
+    token = session?.user.token;
   } else {
-    if (!clientToken) {
-      throw new Error("Access token must be provided in client-side calls.");
-    }
     token = clientToken;
   }
 
+  const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
+
   return axios.create({
     baseURL: process.env.NEXT_PUBLIC_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers
   });
 };
 
