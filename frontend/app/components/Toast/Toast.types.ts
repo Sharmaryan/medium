@@ -1,4 +1,9 @@
+export enum Status { Error = "ERROR", Success = "SUCCESS", Info = "INFO" }
+
 export type ToastTypes = {
     message: string
-    type: 'error' | 'success' | 'info'
+    type: Status
+    id: string;
+    onClose: (id: string) => void;
+    duration?: number;
 }
