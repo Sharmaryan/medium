@@ -1,4 +1,6 @@
+import { Status } from "../Toast/Toast.types"
+
 export type LoaderProps = {
-  type: 'error' | 'success' | 'info'
+  type: Status
   size : 'small' | 'medium' | 'large'
 }

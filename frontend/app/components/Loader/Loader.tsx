@@ -10,9 +10,9 @@ export const Loader = ({ type, size }: LoaderProps) => {
         className={classNames(
           "inline text-gray-200 animate-spin dark:text-gray-300 fill-gray-600",
           {
-            "dark:fill-error": type === "error",
-            "dark:fill-success": type === "success",
-            "dark:fill-info": type === "info",
+            "dark:fill-error": type === "ERROR",
+            "dark:fill-success": type === "SUCCESS",
+            "dark:fill-info": type === "INFO",
             "w-8 h-8": size === "small",
             "w-12 h-12": size === "medium",
             "w-16 h-16": size === "large",
