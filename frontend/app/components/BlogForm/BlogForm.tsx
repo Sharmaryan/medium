@@ -6,26 +6,30 @@ import { useRouter } from "next/navigation";
 import { Button } from "../Button/Button";
 import Input from "../Input/Input";
 import { useSession } from "next-auth/react";
-import { postReq } from "../../lib/axios-helpers/apiClient";
 import { isAxiosError } from "axios";
+import { useToast } from "../../context/toast-provider";
+import { Status } from "../Toast/Toast.types";
+import { useMutation } from "../../hooks/useMutate";
 
 export const BlogForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const session = useSession();
   const router = useRouter();
+  const { addToast } = useToast();
+  const { mutate } = useMutation("POST", BLOG_ROUTE, session.data?.user.token);
   const publishHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const payload = { title, content };
-      await postReq(BLOG_ROUTE, payload, session.data?.user.token);
+      await mutate(payload);
       router.push("/");
+      addToast(Status.Success, "Blog Published Successfully");
     } catch (err) {
       if (isAxiosError(err)) {
-        console.log(err?.response?.data.error);
-      }
-      else{
-        console.log('Something Went Wrong!')
+        addToast(Status.Error, err.response?.data.error);
+      } else {
+        addToast(Status.Error, "Something Went Wrong!");
       }
     }
   };

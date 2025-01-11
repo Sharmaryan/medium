@@ -3,7 +3,6 @@ import Link from "next/link";
 import React from "react";
 import { AuthProps } from "./AuthForm.types";
 import { usePathname, useRouter } from "next/navigation";
-import axios from "axios";
 import { USER_ROUTE, loggingInUser } from "../../lib/constants/auth/auth";
 import { Button } from "../Button/Button";
 import Input from "../Input/Input";
@@ -11,10 +10,15 @@ import { useForm } from "react-hook-form";
 import { SignupInput } from "@sharmaryan/common-medium";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignInSchema } from "../../lib/form-schema/SignIn.schema";
+import { useMutation } from "../../hooks/useMutate";
+import { useToast } from "../../context/toast-provider";
+import { Status } from "../Toast/Toast.types";
 
 export const AuthForm = ({ path, linkText }: AuthProps) => {
   const currentPage = usePathname();
   const router = useRouter();
+  const { mutate } = useMutation("POST", `${USER_ROUTE}/signup`);
+  const { addToast } = useToast();
 
   const {
     register,
@@ -32,15 +36,23 @@ export const AuthForm = ({ path, linkText }: AuthProps) => {
     };
     if (currentPage !== "/signup") {
       const response = await loggingInUser(payload);
-      if(response)
-      router.push("/");
+      if (response?.error) {
+        addToast(Status.Error, response?.error);
+      } else {
+        router.push("/");
+        addToast(Status.Success, "Signed in successfully");
+      }
     } else {
       try {
-        const response = await axios.post(`${USER_ROUTE}/signup`, payload);
-        if (response.status === 200) {
+        const response = await mutate(payload);
+        if (response?.status === 200) {
           const response = await loggingInUser(payload);
-          if(response)
-          router.push("/");
+          if (response?.error) {
+            addToast(Status.Error, response?.error);
+          } else {
+            router.push("/");
+            addToast(Status.Success, "Signing In...");
+          }
         }
       } catch (error) {
         console.log(error);
