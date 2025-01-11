@@ -1,7 +1,8 @@
-import axios from "axios";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials"
 import { USER_ROUTE } from "./constants/auth/auth";
+import { postReq } from "./axios-helpers/apiClient";
+import { isAxiosError } from "axios";
 
 export const NEXT_AUTH: AuthOptions = {
     providers: [
@@ -14,12 +15,13 @@ export const NEXT_AUTH: AuthOptions = {
             async authorize(credentials) {
                 try {
                     const payload = { email: credentials?.email, password: credentials?.password }
-                    const response = await axios.post(`${USER_ROUTE}/signin`, payload)
-                    return { id: response.data.id, email: response.data.email, token: response.data.jwt }
+                    const response = await postReq<{ id: string, email: string, jwt: string }>(`${USER_ROUTE}/signin`, payload)
+                    return { id: response.data.id, email: response.data?.email, token: response.data.jwt }
                 }
                 catch (err) {
-                    // @ts-ignore
-                    console.log(err.response.data.msg)
+                    if (isAxiosError(err)) {
+                        throw new Error(err?.response?.data.msg)
+                    }
                     return null
                 }
             }
