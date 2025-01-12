@@ -17,7 +17,7 @@ export const BlogForm = () => {
   const session = useSession();
   const router = useRouter();
   const { addToast } = useToast();
-  const { mutate } = useMutation("POST", BLOG_ROUTE, session.data?.user.token);
+  const { mutate, isLoading } = useMutation("POST", BLOG_ROUTE, session.data?.user.token);
   const publishHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
@@ -51,7 +51,7 @@ export const BlogForm = () => {
           setContent(e.target.value);
         }}
       />
-      <Button fill="solid" type="submit" className="px-6">
+      <Button fill="solid" type="submit" className="px-6" isLoading={isLoading}>
         Publish
       </Button>
     </form>

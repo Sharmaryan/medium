@@ -17,8 +17,8 @@ import { Status } from "../Toast/Toast.types";
 export const AuthForm = ({ path, linkText }: AuthProps) => {
   const currentPage = usePathname();
   const router = useRouter();
-  const { mutate } = useMutation("POST", `${USER_ROUTE}/signup`);
-  const { addToast } = useToast();
+  const { mutate, isLoading } = useMutation("POST", `${USER_ROUTE}/signup`);
+  const { addToast, } = useToast();
 
   const {
     register,
@@ -78,7 +78,7 @@ export const AuthForm = ({ path, linkText }: AuthProps) => {
         type="password"
         error={errors.password?.message && errors.password.message}
       />
-      <Button fill="solid" type="submit" className="w-full">
+      <Button fill="solid" type="submit" className="w-full" isLoading={isLoading}>
         Submit
       </Button>
       <Button fill="clear">
