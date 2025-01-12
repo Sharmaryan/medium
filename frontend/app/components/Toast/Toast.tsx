@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { ToastTypes } from "./Toast.types";
 import { Loader } from "../Loader/Loader";
 import { useEffect } from "react";
+import { Size } from "../Loader/Loader.types";
 
 export const Toast = ({
   type,
@@ -26,7 +27,7 @@ export const Toast = ({
         }
       )}
     >
-      <Loader type={type} size="small" />
+      <Loader type={type} size={Size.Small} />
       <div className="ml-4">{message}</div>
     </div>
   );
