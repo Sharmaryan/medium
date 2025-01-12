@@ -1,8 +1,9 @@
 import React from "react";
-import { LoaderProps } from "./Loader.types";
+import { LoaderProps, Size } from "./Loader.types";
 import classNames from "classnames";
+import { Status } from "../Toast/Toast.types";
 
-export const Loader = ({ type, size }: LoaderProps) => {
+export const Loader = ({ type, size = Size.Default }: LoaderProps) => {
   return (
     <div role="status">
       <svg
@@ -10,12 +11,13 @@ export const Loader = ({ type, size }: LoaderProps) => {
         className={classNames(
           "inline text-gray-200 animate-spin dark:text-gray-300 fill-gray-600",
           {
-            "dark:fill-error": type === "ERROR",
-            "dark:fill-success": type === "SUCCESS",
-            "dark:fill-info": type === "INFO",
-            "w-8 h-8": size === "small",
-            "w-12 h-12": size === "medium",
-            "w-16 h-16": size === "large",
+            "dark:fill-error": type === Status.Error,
+            "dark:fill-success": type === Status.Success,
+            "dark:fill-info": type === Status.Info,
+            "w-6 h-6": size === Size.Default,
+            "w-8 h-8": size === Size.Small,
+            "w-12 h-12": size === Size.Medium,
+            "w-16 h-16": size === Size.Large,
           }
         )}
         viewBox="0 0 100 101"
