@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { AuthProps } from "./AuthForm.types";
 import { usePathname, useRouter } from "next/navigation";
 import { USER_ROUTE, loggingInUser } from "../../lib/constants/auth/auth";
@@ -18,7 +18,8 @@ export const AuthForm = ({ path, linkText }: AuthProps) => {
   const currentPage = usePathname();
   const router = useRouter();
   const { mutate, isLoading } = useMutation("POST", `${USER_ROUTE}/signup`);
-  const { addToast, } = useToast();
+  const [signupLoading, setSignupLoading] = useState(false);
+  const { addToast } = useToast();
 
   const {
     register,
@@ -35,6 +36,7 @@ export const AuthForm = ({ path, linkText }: AuthProps) => {
       password: data.password,
     };
     if (currentPage !== "/signup") {
+      setSignupLoading(true);
       const response = await loggingInUser(payload);
       if (response?.error) {
         addToast(Status.Error, response?.error);
@@ -42,6 +44,7 @@ export const AuthForm = ({ path, linkText }: AuthProps) => {
         router.push("/");
         addToast(Status.Success, "Signed in successfully");
       }
+      setSignupLoading(false);
     } else {
       try {
         const response = await mutate(payload);
@@ -78,7 +81,12 @@ export const AuthForm = ({ path, linkText }: AuthProps) => {
         type="password"
         error={errors.password?.message && errors.password.message}
       />
-      <Button fill="solid" type="submit" className="w-full" isLoading={isLoading}>
+      <Button
+        fill="solid"
+        type="submit"
+        className="w-full"
+        isLoading={isLoading || signupLoading}
+      >
         Submit
       </Button>
       <Button fill="clear">
