@@ -1,6 +1,6 @@
 "use client";
 import classNames from "classnames";
-import { ToastTypes } from "./Toast.types";
+import { Status, ToastTypes } from "./Toast.types";
 import { Loader } from "../Loader/Loader";
 import { useEffect } from "react";
 import { Size } from "../Loader/Loader.types";
@@ -21,9 +21,9 @@ export const Toast = ({
       className={classNames(
         "w-80 fixed bottom-4 right-4 flex border-2 py-1 px-2 border-primary shadow-2xl",
         {
-          "text-error": type === "ERROR",
-          "text-success": type === "SUCCESS",
-          "text-info": type === "INFO",
+          "text-error": type === Status.Error,
+          "text-success": type === Status.Success,
+          "text-info": type === Status.Info,
         }
       )}
     >
