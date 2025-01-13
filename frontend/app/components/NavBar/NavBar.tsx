@@ -14,7 +14,7 @@ export const NavBar = () => {
       {session.data?.user.token && (
         <Button
           fill="solid"
-          onClick={() => signOut({ callbackUrl: "/signin" })}
+          onClick={() => signOut()}
           className="ml-5"
         >
           Logout
