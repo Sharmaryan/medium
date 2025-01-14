@@ -31,17 +31,19 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <ToastContext.Provider value={value}>
       {children}
-      {toasts.map((toast) => (
-        <div key={toast.id}>
-          <Toast
-            key={toast.id}
-            id={toast.id}
-            type={toast.type}
-            message={toast.message}
-            onClose={removeToast}
-          />
-        </div>
-      ))}
+      <div className="flex flex-col gap-3 fixed bottom-4 right-4">
+        {toasts.map((toast) => (
+          <div key={toast.id}>
+            <Toast
+              key={toast.id}
+              id={toast.id}
+              type={toast.type}
+              message={toast.message}
+              onClose={removeToast}
+            />
+          </div>
+        ))}
+      </div>
     </ToastContext.Provider>
   );
 };

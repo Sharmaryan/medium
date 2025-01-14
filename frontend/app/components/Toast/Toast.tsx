@@ -19,7 +19,7 @@ export const Toast = ({
   return (
     <div
       className={classNames(
-        "w-80 fixed bottom-4 right-4 flex border-2 py-1 px-2 border-primary shadow-2xl",
+        "w-80 flex py-1 px-2 rounded-md bg-toast",
         {
           "text-error": type === Status.Error,
           "text-success": type === Status.Success,
