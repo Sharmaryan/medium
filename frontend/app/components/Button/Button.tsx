@@ -13,7 +13,7 @@ export const Button = ({ children, fill, className, isLoading=false, ...rest }: 
         "bg-secondary text-primary": fill === "solid" && !isLoading,
         "border-secondary border": fill === "outline",
         "rounded-none p-0": fill === "clear",
-        "bg-disable text-[#ABABAB]": isLoading
+        "bg-disable text-disable-text": isLoading
       },className)}
       disabled={isLoading}
     >

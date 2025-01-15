@@ -17,7 +17,8 @@ export default {
         success: "var(--success-color)",
         info: "var(--info-color)",
         disable: "var(--disable-color)",
-        toast: "var(--toast-color)"
+        toast: "var(--toast-color)",
+        'disable-text':"var(--disable-text-color)",
       },
     },
   },
