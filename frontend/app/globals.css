@@ -8,7 +8,19 @@
   --error-color: #ff0000;
   --success-color: #21bd1f;
   --info-color: #f8d76e;
-  --disable-color: #E5E5E5;
-  --toast-color: #2D2D2F;
-  --disable-text-color: #ABABAB;
+  --disable-color: #e5e5e5;
+  --toast-color: #2d2d2f;
+  --disable-text-color: #ababab;
+  --background-color: white;
+  --text-color: black;
+}
+
+.dark {
+  --background-color: black;
+  --text-color: white;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
