@@ -13,10 +13,13 @@ import { SignInSchema } from "../../lib/form-schema/SignIn.schema";
 import { useMutation } from "../../hooks/useMutate";
 import { useToast } from "../../context/toast-provider";
 import { Status } from "../Toast/Toast.types";
+import classNames from "classnames";
+import { useTheme } from "next-themes";
 
-export const AuthForm = ({ path, linkText }: AuthProps) => {
+const AuthForm = ({ path, linkText }: AuthProps) => {
   const currentPage = usePathname();
   const router = useRouter();
+  const { theme } = useTheme();
   const { mutate, isLoading } = useMutation("POST", `${USER_ROUTE}/signup`);
   const [signupLoading, setSignupLoading] = useState(false);
   const { addToast } = useToast();
@@ -65,7 +68,10 @@ export const AuthForm = ({ path, linkText }: AuthProps) => {
 
   return (
     <form
-      className="flex flex-col gap-8 shadow-xl p-5 w-80"
+      className={classNames("flex flex-col gap-8 p-5 w-80", {
+        "shadow-xl": theme === "light",
+        "bg-dark-primary rounded-2xl": theme === "dark",
+      })}
       onSubmit={handleSubmit(formHandler)}
     >
       <Input
@@ -95,3 +101,5 @@ export const AuthForm = ({ path, linkText }: AuthProps) => {
     </form>
   );
 };
+
+export default AuthForm;
