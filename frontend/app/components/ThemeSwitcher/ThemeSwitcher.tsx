@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
-import { Button } from "../Button/Button";
 
 const ThemeSwitcher = () => {
   const [mounted, setMounted] = useState(false);
@@ -20,9 +19,9 @@ const ThemeSwitcher = () => {
   }
 
   return (
-    <Button fill="clear" onClick={handleTheme} className="text-2xl">
+    <button onClick={handleTheme} className="text-2xl">
       {theme === "light" ? "☾" : "☀︎"}
-    </Button>
+    </button>
   );
 };
 
