@@ -19,6 +19,7 @@ export default {
         disable: "var(--disable-color)",
         toast: "var(--toast-color)",
         'disable-text':"var(--disable-text-color)",
+        'dark-primary':"var(--dark-primary)"
       },
     },
   },

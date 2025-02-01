@@ -1,17 +1,18 @@
 import { NavBar } from "./components/NavBar/NavBar";
 import { Providers } from "./providers";
-import './globals.css'
+import "./globals.css";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
         <Providers>
-          <NavBar/>
+          <NavBar />
           {children}
         </Providers>
       </body>
