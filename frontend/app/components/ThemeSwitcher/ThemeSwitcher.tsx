@@ -1,21 +1,29 @@
-"use client";
+import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
+import { Button } from "../Button/Button";
 
-export default function ThemeSwitcher() {
-  const toggleTheme = () => {
-    const currentTheme = document.documentElement.classList.contains("dark")
-      ? "dark"
-      : "light";
-    const newTheme = currentTheme === "light" ? "dark" : "light";
-
-    document.cookie = `theme=${newTheme}; path=/; max-age=31536000`;
-
-    document.documentElement.classList.remove(currentTheme);
-    document.documentElement.classList.add(newTheme);
+const ThemeSwitcher = () => {
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const handleTheme = () => {
+    setTheme((prev) => {
+      return prev === "dark" ? "light" : "dark";
+    });
   };
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
-    <button onClick={toggleTheme} className="ml-auto">
-      Theme
-    </button>
+    <Button fill="clear" onClick={handleTheme} className="text-2xl">
+      {theme === "light" ? "☾" : "☀︎"}
+    </Button>
   );
-}
+};
+
+export default ThemeSwitcher;

@@ -2,11 +2,11 @@
 import Link from "next/link";
 import { Button } from "../Button/Button";
 import { signOut, useSession } from "next-auth/react";
-import ThemeToggle from "../ThemeSwitcher/ThemeSwitcher";
+import dynamic from "next/dynamic";
+const ThemeSwitcher = dynamic(() => import("../ThemeSwitcher/ThemeSwitcher"),{ssr:false});
 
 export const NavBar = () => {
   const session = useSession();
-
   return (
     <header className="flex items-center border-b border-gray-200 p-2">
       <h1 className="text-2xl font-bold">Medium</h1>
@@ -24,7 +24,7 @@ export const NavBar = () => {
           </Button>
         </>
       )}
-      <ThemeToggle />
+     <ThemeSwitcher/>
     </header>
   );
 };
